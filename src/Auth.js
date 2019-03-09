@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {Component} from 'react'
 import auth0 from 'auth0-js';
 import { withRouter } from 'react-router-dom';
 
 
-class Auth extends React.Component{
+class Auth extends Component{
   constructor() {
     super();
     this.auth0 = new auth0.WebAuth({
@@ -19,11 +19,11 @@ class Auth extends React.Component{
 
     this.isAuthenticated = false;
 
-    let token = window.localStorage.getItem('token');
+    let token = window.localStorage.getItem('user');
 
     if (token) {
       if (new Date().getTime() >= token.expiresAt) {
-        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('user')
       } else {
         this.isAuthenticated = true;
         this.profile = token;
@@ -51,7 +51,7 @@ class Auth extends React.Component{
           return reject(err);
         }
 
-        window.localStorage.setItem('token', authResult.idTokenPayload);
+        window.localStorage.setItem('user', authResult.idTokenPayload);
 
         resolve();
       });
@@ -59,7 +59,7 @@ class Auth extends React.Component{
   }
 
   signOut() {
-    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
     this.props.history.replace('/');
   }
 
