@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -20,7 +20,7 @@ const cardStyles = {
     BoxShadow: "6px 7px 36px 1px rgba(0,0,0,0.41)"
 };
 
-export class CourseCard extends React.Component {
+export class CourseCard extends Component {
     state = { expanded: false };
 
     handleExpandClick = () => {

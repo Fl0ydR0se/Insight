@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { CourseCard } from '../components/card'
+import { CourseCard } from '../card'
+import { withStyles } from '@material-ui/core/styles';
 
-export class HomeComponent extends React.Component {
+const styles = theme => ({
+    paper: {
+      padding: '12px'
+    }
+  });
+  
+
+class HomeComponent extends Component {
 
     state = { expanded: false };
 
@@ -10,7 +18,7 @@ export class HomeComponent extends React.Component {
         this.setState(state => ({ expanded: !state.expanded }));
     };
     render() {
-
+        const { classes } = this.props;
         const courses = [
             {
                 id: 1,
@@ -45,19 +53,30 @@ export class HomeComponent extends React.Component {
         ];
 
         return (
-            <div>
-                <Grid container spacing={24} style={{ padding: "20px"}}>
-                    {
-                        courses.map(course => {
-                            return (
-                                <Grid item xs={4} key={course.id}>
-                                    <CourseCard course={course} />
-                                </Grid>
-                            )
-                        })
-                    }
+            <>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center"
+                        >
+                            {
+                                courses.map(course => {
+                                    return (
+                                        <Grid item xs={4} key={course.id} className={classes.paper}>
+                                            <CourseCard course={course} />
+                                        </Grid>
+                                    )
+                                })
+                            }
+                        </Grid>
+                    </Grid>
                 </Grid>
-            </div>
+            </>
         );
     }
 }
+
+export default withStyles(styles)(HomeComponent);

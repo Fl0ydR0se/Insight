@@ -1,27 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import { UserMenuComponent } from '../user-menu'
+import { connect } from 'react-redux';
+import authService from '../../services/auth.service';
 
-import Auth from '../../Auth'
-
-export class NavBarComponent extends React.Component {
-
-    state = {
-        isAuth: false,
-        profile: null
-    };
-
-    componentDidMount() {
-        if (Auth.isAuthenticated) {
-            this.setState({
-                isAuth: true,
-                profile: Auth.profile
-            })
-        }
-    }
+class NavBarComponent extends Component {
 
     render() {
         const links = [
@@ -36,17 +22,17 @@ export class NavBarComponent extends React.Component {
                 path: '/about'
             },
             {
-                id: 2,
+                id: 3,
                 displayName: 'features',
                 path: '/features'
             },
             {
-                id: 2,
+                id: 4,
                 displayName: 'pricing',
                 path: '/pricing'
             },
             {
-                id: 2,
+                id: 5,
                 displayName: 'contactus',
                 path: '/contactus'
             }
@@ -65,7 +51,6 @@ export class NavBarComponent extends React.Component {
             },
         };
 
-
         return (
             <div style={styles.root}>
                 <AppBar position="static" color="default">
@@ -76,10 +61,21 @@ export class NavBarComponent extends React.Component {
                             }
                         </div>
 
-                        {this.state.isAuth ? <UserMenuComponent onSignOut={Auth.signOut}/> : <Button color="inherit" onClick={Auth.signIn}>Login</Button>}
+                        {this.props.loggedIn ? <UserMenuComponent/> : <Button color="inherit" onClick={authService.signIn}>Login</Button>}
                     </Toolbar>
                 </AppBar>
             </div>
         )
     }
 }
+
+function mapStateToProps(state) {
+    const { loggedIn } = state;
+
+    return {
+        loggedIn
+    };
+}
+
+const connectedNavBarComponent = connect(mapStateToProps,)(NavBarComponent);
+export { connectedNavBarComponent as NavBarComponent }; 
