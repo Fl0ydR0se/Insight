@@ -19,6 +19,7 @@ class HomeComponent extends Component {
     };
     render() {
         const { classes } = this.props;
+        
         const courses = [
             {
                 id: 1,
@@ -65,7 +66,7 @@ class HomeComponent extends Component {
                             {
                                 courses.map(course => {
                                     return (
-                                        <Grid item xs={4} key={course.id} className={classes.paper}>
+                                        <Grid item xs={12} md={4} xl={3} key={course.id} className={classes.paper}>
                                             <CourseCard course={course} />
                                         </Grid>
                                     )
