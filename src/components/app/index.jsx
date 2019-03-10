@@ -15,6 +15,9 @@ import { history } from '../../helpers/history'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 
+import PrivateRoute from '../helpers/private-route'
+import { connect } from 'react-redux';
+
 const theme = createMuiTheme({
   palette: {
     primary: purple,
@@ -27,7 +30,7 @@ const theme = createMuiTheme({
   },
 });
 
-export class AppComponent extends Component {
+class AppComponent extends Component {
   render() {
     return (
 
@@ -36,7 +39,7 @@ export class AppComponent extends Component {
           <NavBarComponent />
           <Switch>
             <Route exact path="/" component={HomeComponent} />
-            <Route path="/about" component={About} />
+            <PrivateRoute loggedIn={this.props.loggedIn} path="/about" component={About} />
             <Route path="/features" component={Features} />
             <Route path="/pricing" component={Pricing} />
             <Route path="/contactus" component={Contactus} />
@@ -48,3 +51,14 @@ export class AppComponent extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { loggedIn } = state;
+
+  return {
+    loggedIn
+  };
+}
+
+const connectedAppComponent = connect(mapStateToProps)(AppComponent);
+export { connectedAppComponent as AppComponent }; 

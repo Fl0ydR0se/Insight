@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -26,6 +26,21 @@ export class CourseCard extends Component {
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
     };
+
+
+    shareCourse = () => {
+        if (navigator && navigator.share) {
+
+            const { course: { title, description } } = this.props;
+
+            navigator.share({
+                title: title,
+                text: description.substring(0, 255),
+                url: window.location.href
+            }).then(() => console.log('Successful share'))
+                .catch(error => console.log('Error sharing:', error));
+        }
+    }
 
     render() {
         const { course: { logo, title, description } } = this.props;
@@ -57,7 +72,7 @@ export class CourseCard extends Component {
                     <IconButton aria-label="Add to favorites">
                         <FavoriteIcon />
                     </IconButton>
-                    <IconButton aria-label="Share">
+                    <IconButton aria-label="Share" onClick={this.shareCourse}>
                         <ShareIcon />
                     </IconButton>
                     <IconButton

@@ -14,6 +14,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 const styles = {
     menuButton: {
@@ -26,6 +27,9 @@ const styles = {
     listItem: {
         textTransform: 'uppercase'
 
+    },
+    listItemText: {
+        color: 'red'
     },
     root: {
         flexGrow: 1,
@@ -59,7 +63,8 @@ class NavBarComponent extends Component {
             {
                 id: 2,
                 displayName: 'About',
-                path: '/about'
+                path: '/about',
+                requireAuthorize: true
             },
             {
                 id: 3,
@@ -78,18 +83,23 @@ class NavBarComponent extends Component {
             }
         ];
 
-        const menuItems = function (isMobile) {
+        const menuItems = (isMobile) => {
+            const filteredLinks = links.filter(x => !x.requireAuthorize || this.props.loggedIn);
             if (isMobile) {
                 return (
                     <div className={classes.list}>
                         <List>
-                            {links.map(link => <ListItem className={classes.listItem} button component={Link} to={link.path} key={link.id}><ListItemText >{link.displayName}</ListItemText></ListItem>)}
+                            {
+                                filteredLinks.map(link =>
+                                    <ListItem className={classes.listItem} button component={Link} to={link.path} key={link.id}>
+                                        <ListItemText disableTypography><Typography type="body1" className={classes.listItemText}>{link.displayName}</Typography></ListItemText></ListItem>)
+                            }
                         </List>
                     </div>
                 )
 
             } else {
-                return links.map(link => <Button className={classes.menuButton} variant="outlined" key={link.id} color="primary" component={Link} to={link.path}>{link.displayName}</Button>);
+                return filteredLinks.map(link => <Button className={classes.menuButton} variant="outlined" key={link.id} color="primary" component={Link} to={link.path}>{link.displayName}</Button>);
             }
         }
 
