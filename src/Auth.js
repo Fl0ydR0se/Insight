@@ -11,7 +11,7 @@ class Auth extends Component{
       domain: 'floydrose.eu.auth0.com',
       audience: 'https://floydrose.eu.auth0.com/userinfo',
       clientID: 'g2YDROYjBOH8RX6Tku70WGootwuuWjIC',
-      redirectUri: 'http://insight-edu.herokuapp.com/callback',
+      redirectUri: 'https://insight-edu.herokuapp.com/callback',
       responseType: 'id_token',
       scope: 'openid profile',
       state: 'test'
